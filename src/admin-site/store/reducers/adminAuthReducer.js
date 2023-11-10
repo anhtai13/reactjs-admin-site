@@ -5,12 +5,13 @@ const adminAuthReducer = createReducer(
   {
     ADMIN_LOGIN: (state, action) => {
       window.localStorage.setItem("X-API-Key", action.payload);
-
+      console.log(action.payload);
       return {
         ...state,
         isAuthenticate: true,
       };
     },
+
     ADMIN_SET_AUTH: (state, action) => {
       return {
         ...state,

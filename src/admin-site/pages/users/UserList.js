@@ -197,7 +197,7 @@ function UserList() {
                     id={"id-" + user.id}
                     value={user.id}
                     onChange={changeUserIdCheckbox}
-                    checked={selectedUserIds.find((id) => id === user.id)}
+                    checked={selectedUserIds.find((id) => id === user.user_id)}
                   />
                 </td>
                 <td>{user.username}</td>
