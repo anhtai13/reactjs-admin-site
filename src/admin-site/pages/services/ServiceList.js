@@ -7,7 +7,7 @@ import AdminPaginationComponent, {
   NUMBER_RECORDS_PER_PAGE,
 } from "../../components/table/AdminPaginationComponent";
 
-import productApi from "../../../apis/product.api";
+import serviceApi from "../../../apis/service.api";
 
 const formatCategory = (category) => {
   if (category === 1) {
@@ -19,10 +19,10 @@ const formatCategory = (category) => {
   }
 };
 
-function ProductList() {
+function ServiceList() {
   const navigate = useNavigate();
 
-  const [products, setProducts] = useState([]);
+  const [services, setServices] = useState([]);
   const [total, setTotal] = useState(0);
 
   const [searchInputValue, setSearchInputValue] = useState("");
@@ -30,17 +30,17 @@ function ProductList() {
   const [keyword, setKeyword] = useState(null);
   const [page, setPage] = useState(1);
 
-  const [selectedProductIds, setSelectedProductIds] = useState([]);
+  const [selectedServiceIds, setSelectedServiceIds] = useState([]);
 
-  const fetchProducts = () => {
-    productApi
-      .searchProducts({
+  const fetchServices = () => {
+    serviceApi
+      .searchServices({
         name: keyword,
         page: page,
         limit: 5,
       })
       .then((data) => {
-        setProducts(data.records);
+        setServices(data.records);
         setTotal(data.total);
       })
       .catch((error) => {
@@ -52,11 +52,11 @@ function ProductList() {
         }
       });
 
-    setSelectedProductIds([]);
+    setSelectedServiceIds([]);
   };
 
   useEffect(() => {
-    fetchProducts();
+    fetchServices();
   }, [keyword, page]);
 
   const handleSearch = (event) => {
@@ -65,37 +65,43 @@ function ProductList() {
   };
 
   const handleAdd = () => {
-    navigate("/admin/products/new");
+    navigate("/admin/services/new");
   };
 
   const handleEdit = (id) => {
-    navigate(`/admin/products/${id}/edit`);
+    navigate(`/admin/services/${id}/edit`);
   };
 
   const handleBulkDelete = () => {
-    const name = products
+    const name = services
       .filter(
-        (product) =>
-          !!selectedProductIds.find(
-            (selectedProductId) => selectedProductId === product.product_id
+        (service) =>
+          !!selectedServiceIds.find(
+            (selectedServiceId) => selectedServiceId === service.service_id
           )
       )
-      .map((product) => product.name);
+      .map((service) => service.name);
 
     if (
-      window.confirm(`Bạn có chắc chắn muốn xóa sản phẩm [${name}] không ?`)
+      window.confirm(
+        `Bạn có chắc chắn muốn xóa dịch vụ [${name_service}] không ?`
+      )
     ) {
       // TODO
-      fetchProducts();
+      fetchServices();
     }
   };
 
   const handleDelete = (id, name) => {
-    if (window.confirm(`Bạn có chắc chắn muốn xóa sản phẩm ${name} không ?`)) {
-      productApi
-        .deleteProduct(id)
+    if (
+      window.confirm(
+        `Bạn có chắc chắn muốn xóa dịch vụ ${name_service} không ?`
+      )
+    ) {
+      serviceApi
+        .deleteService(id)
         .then(() => {
-          fetchProducts();
+          fetchServices();
         })
         .catch((error) => {
           if (error.response.status === 401) {
@@ -108,33 +114,33 @@ function ProductList() {
     }
   };
 
-  const changeProductIdCheckbox = (event) => {
+  const changeServiceCheckbox = (event) => {
     if (event.target.checked) {
-      setSelectedProductIds([
-        ...selectedProductIds,
+      setSelectedServiceIds([
+        ...selectedServiceIds,
         parseInt(event.target.value),
       ]);
     } else {
-      const newSelectedProductIds = selectedProductIds.filter(
-        (selectedProductId) =>
-          selectedProductId !== parseInt(event.target.value)
+      const newSelectedServiceIds = selectedServiceIds.filter(
+        (selectedServiceId) =>
+          selectedServiceId !== parseInt(event.target.value)
       );
-      setSelectedProductIds(newSelectedProductIds);
+      setSelectedServiceIds(newSelectedServiceIds);
     }
   };
 
-  const selectAllProductIdCheckboxes = (event) => {
+  const selectAllServiceIdCheckboxes = (event) => {
     if (event.target.checked) {
-      const productIds = products.map((product) => product.product_id);
-      setSelectedProductIds(productIds);
+      const ServiceIds = services.map((service) => service.service_id);
+      setSelectedServiceIds(ServiceIds);
     } else {
-      setSelectedProductIds([]);
+      setSelectedServiceIds([]);
     }
   };
 
-  const isSelectedAllProductId =
-    selectedProductIds.length !== 0 &&
-    selectedProductIds.length === products.length;
+  const isSelectedAllServiceId =
+    selectedServiceIds.length !== 0 &&
+    selectedServiceIds.length === services.length;
 
   return (
     <>
@@ -155,7 +161,7 @@ function ProductList() {
           <Button type="button" variant="primary mx-1" onClick={handleAdd}>
             Thêm mới
           </Button>
-          {selectedProductIds.length !== 0 && (
+          {selectedServiceIds.length !== 0 && (
             <Button
               type="button"
               variant="danger mx-1"
@@ -172,12 +178,12 @@ function ProductList() {
             <th>
               <Form.Check
                 type="checkbox"
-                onChange={selectAllProductIdCheckboxes}
-                checked={isSelectedAllProductId}
+                onChange={selectAllServiceIdCheckboxes}
+                checked={isSelectedAllServiceId}
               />
             </th>
-            <th>Tên sản phẩm</th>
-            <th>Mô tả sản phẩm</th>
+            <th>Tên dịch vụ</th>
+            <th>Mô tả dịch vụ</th>
             <th>Loại hàng</th>
             <th>Giá tiền</th>
             <th>Thời gian tạo</th>
@@ -186,32 +192,32 @@ function ProductList() {
           </tr>
         </thead>
         <tbody>
-          {products.map((product, index) => {
+          {services.map((service, index) => {
             return (
               <tr key={index}>
                 <td>
                   <Form.Check
                     type="checkbox"
                     name="id"
-                    id={"id-" + product.product_id}
-                    value={product.product_id}
-                    onChange={changeProductIdCheckbox}
-                    checked={selectedProductIds.find(
-                      (id) => id === product.product_id
+                    id={"id-" + service.service_id}
+                    value={service.service_id}
+                    onChange={changeServiceCheckbox}
+                    checked={selectedServiceIds.find(
+                      (id) => id === service.serservice_id
                     )}
                   />
                 </td>
-                <td>{product.name}</td>
-                <td>{product.description}</td>
-                <td>{formatCategory(product.category)}</td>
-                <td>{product.unit_price.toLocaleString()}</td>
-                <td>{moment(product.created_at).format("YYYY-MM-DD HH:mm")}</td>
-                <td>{moment(product.updated_at).format("YYYY-MM-DD HH:mm")}</td>
+                <td>{service.name_service}</td>
+                <td>{service.description}</td>
+                <td>{formatCategory(service.category)}</td>
+                <td>{service.unit_price.toLocaleString()}</td>
+                <td>{moment(service.created_at).format("YYYY-MM-DD HH:mm")}</td>
+                <td>{moment(service.updated_at).format("YYYY-MM-DD HH:mm")}</td>
                 <td>
                   <Button
                     variant="warning"
                     className="m-1"
-                    onClick={() => handleEdit(product.product_id)}
+                    onClick={() => handleEdit(service.service_id)}
                   >
                     Sửa
                   </Button>
@@ -219,7 +225,7 @@ function ProductList() {
                     variant="danger"
                     className="m-1"
                     onClick={() =>
-                      handleDelete(product.product_id, product.name)
+                      handleDelete(service.service_id, service.name_service)
                     }
                   >
                     Xóa
@@ -235,4 +241,4 @@ function ProductList() {
   );
 }
 
-export default ProductList;
+export default ServiceList;

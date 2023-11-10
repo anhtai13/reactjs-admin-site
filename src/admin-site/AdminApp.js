@@ -15,15 +15,14 @@ import UserList from "../admin-site/pages/users/UserList";
 import UserCreate from "../admin-site/pages/users/UserCreate";
 import UserEdit from "./pages/users/UserEdit";
 
-import ProductList from "./pages/products/ProductList";
-import ProductCreate from "./pages/products/ProductCreate";
-import ProductEdit from "./pages/products/ProductEdit";
-
 import OrderList from "./pages/orders/OrderList";
 import OrderEdit from "./pages/orders/OrderEdit";
 
 import ContactList from "./pages/contacts/ContactList";
 import ContactEdit from "./pages/contacts/contactEdit";
+import ServiceList from "./pages/services/ServiceList";
+import ServiceCreate from "./pages/services/ServiceCreate";
+import ServiceEdit from "./pages/services/ServicetEdit";
 
 function AdminApp() {
   return (
@@ -35,9 +34,9 @@ function AdminApp() {
           <Route path="users/new" element={<UserCreate />} />
           <Route path="users/:id/edit" element={<UserEdit />} />
 
-          <Route path="/products" element={<ProductList />} />
-          <Route path="/products/new" element={<ProductCreate />} />
-          <Route path="/products/:id/edit" element={<ProductEdit />} />
+          <Route path="/services" element={<ServiceList />} />
+          <Route path="/services/new" element={<ServiceCreate />} />
+          <Route path="/services/:id/edit" element={<ServiceEdit />} />
 
           <Route path="/orders" element={<OrderList />} />
           <Route path="/orders/:id/edit" element={<OrderEdit />} />
