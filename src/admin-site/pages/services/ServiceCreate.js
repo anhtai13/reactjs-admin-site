@@ -1,16 +1,15 @@
 import { useNavigate } from "react-router-dom";
-import ProductForm from "../../components/products/ProductForm";
+import ServiceForm from "../../components/services/ServiceForm";
+import serviceApi from "../../../apis/service.api";
 
-import productApi from "../../../apis/product.api";
-
-function ProductCreate() {
+function ServiceCreate() {
   const navigate = useNavigate();
 
-  const handleAdd = (product) => {
-    productApi
-      .createProducts(product)
+  const handleAdd = (service) => {
+    serviceApi
+      .createServices(service)
       .then((response) => {
-        navigate("/admin/products");
+        navigate("/admin/services");
       })
       .catch((error) => {
         if (error.response.status === 401) {
@@ -25,12 +24,12 @@ function ProductCreate() {
   return (
     <>
       <h1>Thêm mới người dùng</h1>
-      <ProductForm
+      <ServiceForm
         onSubmit={handleAdd}
-        onCancel={() => navigate("/admin/products")}
+        onCancel={() => navigate("/admin/services")}
       />
     </>
   );
 }
 
-export default ProductCreate;
+export default ServiceCreate;

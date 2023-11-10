@@ -5,35 +5,33 @@ import { Form, Button } from "react-bootstrap";
 
 import ResourceNotFound from "../errors/ResourceNotFound";
 
-import productApi from "../../../apis/product.api";
+import serviceApi from "../../../apis/service.api";
 
-function ProductForm({ productId, onSubmit, onCancel }) {
+function ServiceForm({ serviceId, onSubmit, onCancel }) {
   const [isEdit, setIsEdit] = useState(false);
 
-  const [product, setProduct] = useState(null);
+  const [service, setService] = useState(null);
 
   const [errors, setErrors] = useState(new Map());
 
   useEffect(() => {
-    setIsEdit(productId !== undefined);
+    setIsEdit(serviceId !== undefined);
 
-    if (productId === undefined) {
-      setProduct({
-        name: "",
-        sku: "",
+    if (serviceId === undefined) {
+      setService({
+        service_name: "",
         category: "",
         description: "",
         unit_price: "",
         image: null,
       });
     } else {
-      productApi
-        .getProductByProductId(productId)
+      serviceApi
+        .getServiceByServiceId(serviceId)
         .then((response) => {
-          setProduct({
+          setService({
             ...response,
-            sku: response.sku || "",
-            name: response.name || "",
+            name: response.service_name || "",
             image: null,
           });
         })
@@ -41,7 +39,7 @@ function ProductForm({ productId, onSubmit, onCancel }) {
           console.log(error);
         });
     }
-  }, [productApi]);
+  }, [serviceApi]);
 
   const handleChange = (event) => {
     const name = event.target.name;
@@ -49,14 +47,14 @@ function ProductForm({ productId, onSubmit, onCancel }) {
 
     switch (name) {
       case "image":
-        setProduct({
-          ...product,
+        setService({
+          ...service,
           [name]: event.target.files[0],
         });
         break;
       default:
-        setProduct({
-          ...product,
+        setService({
+          ...service,
           [name]: name === "category" ? parseInt(value) : value,
         });
         break;
@@ -71,14 +69,13 @@ function ProductForm({ productId, onSubmit, onCancel }) {
     if (errors.size === 0) {
       const formData = new FormData();
 
-      formData.append("name", product.name);
-      formData.append("sku", product.sku);
-      formData.append("description", product.description);
-      formData.append("unit_price", product.unit_price);
-      formData.append("category", product.category);
+      formData.append("service_name", service.service_name);
+      formData.append("description", service.description);
+      formData.append("unit_price", service.unit_price);
+      formData.append("category", service.category);
 
-      if (product.image) {
-        formData.append("image", product.image);
+      if (service.image) {
+        formData.append("image", service.image);
       }
 
       onSubmit(formData);
@@ -91,22 +88,18 @@ function ProductForm({ productId, onSubmit, onCancel }) {
     const errors = new Map();
 
     if (
-      product.name.length < 4 ||
-      product.name.length > 69 ||
-      /^[A-Za-z0-9]$/.test(product.name)
+      service.name.length < 4 ||
+      service.name.length > 69 ||
+      /^[A-Za-z0-9]$/.test(service.name)
     ) {
       errors.set("name", "Tên sản phẩm bắt buộc nhập từ 4 đến 69 ký tự.");
     }
 
-    if (product.description !== null && product.description.length >= 100) {
+    if (service.description !== null && service.description.length >= 100) {
       errors.set("description", "Mô tả chỉ được phép nhập nhỏ hơn 100 ký tự.");
     }
 
-    if (!product.sku) {
-      errors.set("sku", "Mã sản phẩm không được để trống");
-    }
-
-    if (isNaN(product.unit_price)) {
+    if (isNaN(service.unit_price)) {
       errors.set("unit_price", "đơn vị tiền chỉ được phép nhập số.");
     }
 
@@ -115,7 +108,7 @@ function ProductForm({ productId, onSubmit, onCancel }) {
 
   return (
     <>
-      {product ? (
+      {service ? (
         <Form onSubmit={handleSubmit}>
           <Form.Group className="mb-3">
             <Form.Label>
@@ -124,33 +117,20 @@ function ProductForm({ productId, onSubmit, onCancel }) {
             <Form.Control
               type="text"
               name="name"
-              value={product.name}
+              value={service.service_name}
               onChange={handleChange}
               disabled={isEdit}
               isInvalid={errors.get("name")}
             />
             <Form.Text className="text-danger">{errors.get("name")}</Form.Text>
           </Form.Group>
+
           <Form.Group className="mb-3">
-            <Form.Label>
-              Mã sản phẩm <span className="text-danger">*</span>
-            </Form.Label>
-            <Form.Control
-              type="text"
-              name="sku"
-              value={product.sku}
-              onChange={handleChange}
-              disabled={isEdit}
-              isInvalid={errors.get("sku")}
-            />
-            <Form.Text className="text-danger">{errors.get("sku")}</Form.Text>
-          </Form.Group>
-          <Form.Group className="mb-3">
-            <Form.Label>Mô tả sản phẩm</Form.Label>
+            <Form.Label>Mô tả dịch vụ</Form.Label>
             <Form.Control
               type="text"
               name="description"
-              value={product.description}
+              value={service.description}
               onChange={handleChange}
               isInvalid={errors.get("description")}
             />
@@ -158,12 +138,13 @@ function ProductForm({ productId, onSubmit, onCancel }) {
               {errors.get("description")}
             </Form.Text>
           </Form.Group>
+
           <Form.Group className="mb-3">
             <Form.Label>Số tiền</Form.Label>
             <Form.Control
               type="number"
               name="unit_price"
-              value={product.unit_price}
+              value={service.unit_price}
               onChange={handleChange}
               isInvalid={errors.get("unit_price")}
             />
@@ -184,7 +165,7 @@ function ProductForm({ productId, onSubmit, onCancel }) {
                 label="áo phong"
                 id="category-1"
                 value={2}
-                checked={product.category === 2}
+                checked={service.category === 2}
                 onChange={handleChange}
               />
               <Form.Check
@@ -194,7 +175,7 @@ function ProductForm({ productId, onSubmit, onCancel }) {
                 label="Áo sơ mi"
                 id="category-2"
                 value={1}
-                checked={product.category === 1}
+                checked={service.category === 1}
                 onChange={handleChange}
               />
               <Form.Check
@@ -204,7 +185,7 @@ function ProductForm({ productId, onSubmit, onCancel }) {
                 label="Quần"
                 id="category-3"
                 value={3}
-                checked={product.category === 3}
+                checked={service.category === 3}
                 onChange={handleChange}
               />
             </div>
@@ -241,4 +222,4 @@ function ProductForm({ productId, onSubmit, onCancel }) {
   );
 }
 
-export default ProductForm;
+export default ServiceForm;

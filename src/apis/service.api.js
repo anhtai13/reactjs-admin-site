@@ -1,8 +1,8 @@
 import api, { getHeaders } from "./api";
 
-const searchProducts = async (params = {}) => {
+const searchServices = async (params = {}) => {
   return await api
-    .get("/products", { params: params, headers: getHeaders() })
+    .get("/services", { params: params, headers: getHeaders() })
     .then((response) => {
       return response.data;
     })
@@ -12,9 +12,9 @@ const searchProducts = async (params = {}) => {
     });
 };
 
-const createProducts = async (requestBody) => {
+const createServices = async (requestBody) => {
   return await api
-    .postForm("/products", requestBody, { headers: getHeaders() })
+    .postForm("/services", requestBody, { headers: getHeaders() })
     .then((response) => {
       return response.data;
     })
@@ -24,9 +24,9 @@ const createProducts = async (requestBody) => {
     });
 };
 
-const getProductByProductId = async (productId) => {
+const getServiceByServiceId = async (serviceId) => {
   return await api
-    .get(`/products/${productId}`, { headers: getHeaders() })
+    .get(`/services/${serviceId}`, { headers: getHeaders() })
     .then((response) => {
       return response.data;
     })
@@ -36,9 +36,9 @@ const getProductByProductId = async (productId) => {
     });
 };
 
-const updateProduct = async (productId, requestBody) => {
+const updateService = async (serviceId, requestBody) => {
   return await api
-    .putForm(`/products/${productId}`, requestBody, { headers: getHeaders() })
+    .putForm(`/services/${serviceId}`, requestBody, { headers: getHeaders() })
     .then((response) => {
       return response.data;
     })
@@ -48,9 +48,9 @@ const updateProduct = async (productId, requestBody) => {
     });
 };
 
-const deleteProduct = async (productId) => {
+const deleteService = async (serviceId) => {
   return await api
-    .delete(`/products/${productId}`, { headers: getHeaders() })
+    .delete(`/services/${serviceId}`, { headers: getHeaders() })
     .then((response) => {
       return response.data;
     })
@@ -61,9 +61,9 @@ const deleteProduct = async (productId) => {
 };
 
 export default {
-  searchProducts,
-  createProducts,
-  getProductByProductId,
-  updateProduct,
-  deleteProduct,
+  searchServices,
+  createServices,
+  getServiceByServiceId,
+  updateService,
+  deleteService,
 };

@@ -1,23 +1,20 @@
 import { useParams } from "react-router";
 import { useNavigate } from "react-router-dom";
 
-import ProductForm from "../../components/products/ProductForm";
-
-import productApi from "../../../apis/product.api";
+import ServiceForm from "../../components/services/ServiceForm";
+import serviceApi from "../../../apis/service.api";
 import { useEffect } from "react";
 
-function ProductEdit() {
+function ServiceEdit() {
   const navigate = useNavigate();
 
   const { id } = useParams();
-  useEffect(()=>{
-
-  },[])
-  const handleUpdate = (product) => {
-    productApi
-      .updateProduct(id, product)
+  useEffect(() => {}, []);
+  const handleUpdate = (service) => {
+    serviceApi
+      .updateService(id, service)
       .then(() => {
-        navigate("/admin/products");
+        navigate("/admin/services");
       })
       .catch((error) => {
         if (error.response.status === 401) {
@@ -31,14 +28,14 @@ function ProductEdit() {
 
   return (
     <>
-      <h1>Chỉnh sửa thông tin sản phẩm</h1>
-      <ProductForm
-        productId={id}
+      <h1>Chỉnh sửa thông tin dịch vụ</h1>
+      <ServiceForm
+        ServiceId={id}
         onSubmit={handleUpdate}
-        onCancel={() => navigate("/admin/products")}
+        onCancel={() => navigate("/admin/services")}
       />
     </>
   );
 }
 
-export default ProductEdit;
+export default ServiceEdit;
