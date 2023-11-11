@@ -187,44 +187,54 @@ function UserList() {
           </tr>
         </thead>
         <tbody>
-          {users.map((user, index) => {
-            return (
-              <tr key={index}>
-                <td>
-                  <Form.Check
-                    type="checkbox"
-                    name="id"
-                    id={"id-" + user.id}
-                    value={user.id}
-                    onChange={changeUserIdCheckbox}
-                    checked={selectedUserIds.find((id) => id === user.id)}
-                  />
-                </td>
-                <td>{user.username}</td>
-                <td>{user.email}</td>
-                <td>{formatName(user.first_name, user.last_name)}</td>
-                <td>{formatRole(user.role)}</td>
-                <td>{moment(user.created_at).format("YYYY-MM-DD HH:mm")}</td>
-                <td>{moment(user.updated_at).format("YYYY-MM-DD HH:mm")}</td>
-                <td>
-                  <Button
-                    variant="warning"
-                    className="m-1"
-                    onClick={() => handleEdit(user.id)}
-                  >
-                    Sửa
-                  </Button>
-                  <Button
-                    variant="danger"
-                    className="m-1"
-                    onClick={() => handleDelete(user.id, user.username)}
-                  >
-                    Xóa
-                  </Button>
-                </td>
-              </tr>
-            );
-          })}
+          {users
+            ? users.map((user, index) => {
+                return (
+                  <tr key={index}>
+                    <td>
+                      <Form.Check
+                        type="checkbox"
+                        name="id"
+                        id={"id-" + user.user_id}
+                        value={user.user_id}
+                        onChange={changeUserIdCheckbox}
+                        checked={selectedUserIds.find(
+                          (id) => id === user.user_id
+                        )}
+                      />
+                    </td>
+                    <td>{user.username}</td>
+                    <td>{user.email}</td>
+                    <td>{formatName(user.first_name, user.last_name)}</td>
+                    <td>{formatRole(user.role)}</td>
+                    <td>
+                      {moment(user.created_at).format("YYYY-MM-DD HH:mm")}
+                    </td>
+                    <td>
+                      {moment(user.updated_at).format("YYYY-MM-DD HH:mm")}
+                    </td>
+                    <td>
+                      <Button
+                        variant="warning"
+                        className="m-1"
+                        onClick={() => handleEdit(user.user_id)}
+                      >
+                        Sửa
+                      </Button>
+                      <Button
+                        variant="danger"
+                        className="m-1"
+                        onClick={() =>
+                          handleDelete(user.user_id, user.username)
+                        }
+                      >
+                        Xóa
+                      </Button>
+                    </td>
+                  </tr>
+                );
+              })
+            : ""}
         </tbody>
       </Table>
       <AdminPaginationComponent total={total} setPage={setPage} />

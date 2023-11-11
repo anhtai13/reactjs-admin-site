@@ -12,7 +12,7 @@ function UserEdit() {
 
   const handleUpdate = (user) => {
     userApi
-      .updateUser(id, user)
+      .updateUser(Number(id), user)
       .then(() => {
         navigate("/admin/users");
       })
@@ -30,7 +30,7 @@ function UserEdit() {
     <>
       <h1>Chỉnh sửa thông tin người dùng</h1>
       <UserForm
-        userId={id}
+        userId={Number(id)}
         onSubmit={handleUpdate}
         onCancel={() => navigate("/admin/users")}
       />

@@ -12,9 +12,9 @@ import CustomerRegisterPage from "./pages/auth/CustomerRegisterPage";
 import CustomerLoginPage from "./pages/auth/CustomerLoginPage";
 import CustomerHomePage from "./pages/CustomerHomePage";
 import CartList from "./pages/cart/CartList";
-import ProductList from "./pages/products/ProductList";
 import CustomerMenuComponent from "./components/partials/CustomerMenuComponent";
 import OrderList from "./pages/orders/OrderList";
+import ServiceList from "../admin-site/pages/services/ServiceList";
 
 function CustomerApp() {
   return (
@@ -25,7 +25,7 @@ function CustomerApp() {
         <Route path="/" element={<CustomerLayout />}>
           <Route path="/home" element={<CustomerMenuComponent />} />
           <Route path="/cart" element={<CartList />} />
-          <Route path="/product" element={<ProductList />} />
+          <Route path="/service" element={<ServiceList />} />
           <Route path="/order" element={<OrderList />} />
           <Route index element={<CustomerHomePage />} />
           <Route path="*" element={<CustomerNotFoundPage />} />

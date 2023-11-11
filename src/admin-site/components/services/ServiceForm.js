@@ -72,7 +72,7 @@ function ServiceForm({ serviceId, onSubmit, onCancel }) {
       formData.append("service_name", service.service_name);
       formData.append("description", service.description);
       formData.append("unit_price", service.unit_price);
-      formData.append("category", service.category);
+      formData.append("category", service.category_id);
 
       if (service.image) {
         formData.append("image", service.image);

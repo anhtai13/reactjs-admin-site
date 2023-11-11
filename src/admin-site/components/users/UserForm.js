@@ -32,7 +32,7 @@ function UserForm({ userId, onSubmit, onCancel }) {
       });
     } else {
       userApi
-        .getUserByUserId(userId)
+        .getUserByUserId(Number(userId))
         .then((response) => {
           setUser({
             ...response,

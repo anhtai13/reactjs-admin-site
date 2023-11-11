@@ -7,7 +7,7 @@ import AdminPaginationComponent, {
   NUMBER_RECORDS_PER_PAGE,
 } from "../../../admin-site/components/table/AdminPaginationComponent";
 
-import productApi from "../../../apis/product.api";
+import serviceApi from "../../../apis/service.api";
 
 const getRows = (products) => {
   let rows = [];
@@ -42,8 +42,8 @@ function ProductList() {
   const rows = getRows(products);
 
   const fetchProducts = () => {
-    productApi
-      .searchProducts({
+    serviceApi
+      .searchServices({
         name: keyword,
         page: page,
         limit: 9,

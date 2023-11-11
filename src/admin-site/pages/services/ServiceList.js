@@ -82,22 +82,14 @@ function ServiceList() {
       )
       .map((service) => service.name);
 
-    if (
-      window.confirm(
-        `Bạn có chắc chắn muốn xóa dịch vụ [${name_service}] không ?`
-      )
-    ) {
+    if (window.confirm(`Bạn có chắc chắn muốn xóa dịch vụ ${name} không ?`)) {
       // TODO
       fetchServices();
     }
   };
 
   const handleDelete = (id, name) => {
-    if (
-      window.confirm(
-        `Bạn có chắc chắn muốn xóa dịch vụ ${name_service} không ?`
-      )
-    ) {
+    if (window.confirm(`Bạn có chắc chắn muốn xóa dịch vụ ${name} không ?`)) {
       serviceApi
         .deleteService(id)
         .then(() => {
@@ -209,7 +201,7 @@ function ServiceList() {
                 </td>
                 <td>{service.name_service}</td>
                 <td>{service.description}</td>
-                <td>{formatCategory(service.category)}</td>
+                <td>{formatCategory(service.category_id)}</td>
                 <td>{service.unit_price.toLocaleString()}</td>
                 <td>{moment(service.created_at).format("YYYY-MM-DD HH:mm")}</td>
                 <td>{moment(service.updated_at).format("YYYY-MM-DD HH:mm")}</td>
