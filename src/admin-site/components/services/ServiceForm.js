@@ -16,11 +16,11 @@ function ServiceForm({ serviceId, onSubmit, onCancel }) {
 
   useEffect(() => {
     setIsEdit(serviceId !== undefined);
-
     if (serviceId === undefined) {
+      console.log("ádasdasdasdas");
       setService({
-        service_name: "",
-        category: "",
+        name_service: "",
+        category_id: "",
         description: "",
         unit_price: "",
         image: null,
@@ -29,9 +29,9 @@ function ServiceForm({ serviceId, onSubmit, onCancel }) {
       serviceApi
         .getServiceByServiceId(serviceId)
         .then((response) => {
+          console.log(response);
           setService({
             ...response,
-            name: response.service_name || "",
             image: null,
           });
         })
@@ -55,7 +55,7 @@ function ServiceForm({ serviceId, onSubmit, onCancel }) {
       default:
         setService({
           ...service,
-          [name]: name === "category" ? parseInt(value) : value,
+          [name]: name === "name_service" ? parseInt(value) : value,
         });
         break;
     }
@@ -69,10 +69,10 @@ function ServiceForm({ serviceId, onSubmit, onCancel }) {
     if (errors.size === 0) {
       const formData = new FormData();
 
-      formData.append("service_name", service.service_name);
+      formData.append("name_service", service.name_service);
       formData.append("description", service.description);
       formData.append("unit_price", service.unit_price);
-      formData.append("category", service.category_id);
+      formData.append("category_id", service.category_id);
 
       if (service.image) {
         formData.append("image", service.image);
@@ -88,11 +88,11 @@ function ServiceForm({ serviceId, onSubmit, onCancel }) {
     const errors = new Map();
 
     if (
-      service.name.length < 4 ||
-      service.name.length > 69 ||
-      /^[A-Za-z0-9]$/.test(service.name)
+      service.name_service.length < 4 ||
+      service.name_service.length > 69 ||
+      /^[A-Za-z0-9]$/.test(service.name_service)
     ) {
-      errors.set("name", "Tên sản phẩm bắt buộc nhập từ 4 đến 69 ký tự.");
+      errors.set("name", "Tên dịch vụ bắt buộc nhập từ 4 đến 69 ký tự.");
     }
 
     if (service.description !== null && service.description.length >= 100) {
@@ -112,12 +112,12 @@ function ServiceForm({ serviceId, onSubmit, onCancel }) {
         <Form onSubmit={handleSubmit}>
           <Form.Group className="mb-3">
             <Form.Label>
-              Tên Sản Phẩm <span className="text-danger">*</span>
+              Tên dịch vụ <span className="text-danger">*</span>
             </Form.Label>
             <Form.Control
               type="text"
               name="name"
-              value={service.service_name}
+              value={service.name_service}
               onChange={handleChange}
               disabled={isEdit}
               isInvalid={errors.get("name")}
@@ -161,37 +161,57 @@ function ServiceForm({ serviceId, onSubmit, onCancel }) {
               <Form.Check
                 inline
                 type="radio"
-                name="category"
-                label="áo phong"
+                name="category_id"
+                label="Giặt"
                 id="category-1"
-                value={2}
-                checked={service.category === 2}
-                onChange={handleChange}
-              />
-              <Form.Check
-                inline
-                type="radio"
-                name="category"
-                label="Áo sơ mi"
-                id="category-2"
                 value={1}
-                checked={service.category === 1}
+                checked={service.category_id == "1"}
                 onChange={handleChange}
               />
               <Form.Check
                 inline
                 type="radio"
-                name="category"
-                label="Quần"
+                name="category_id"
+                label="Hong khô"
+                id="category-2"
+                value={2}
+                checked={service.category_id == "2"}
+                onChange={handleChange}
+              />
+              <Form.Check
+                inline
+                type="radio"
+                name="category_id"
+                label="Giặt tay"
                 id="category-3"
                 value={3}
-                checked={service.category === 3}
+                checked={service.category_id == "3"}
+                onChange={handleChange}
+              />
+              <Form.Check
+                inline
+                type="radio"
+                name="category_id"
+                label="Giặt giày"
+                id="category-4"
+                value={4}
+                checked={service.category_id == "4"}
+                onChange={handleChange}
+              />
+              <Form.Check
+                inline
+                type="radio"
+                name="category_id"
+                label="Giặt nhanh"
+                id="category-4"
+                value={5}
+                checked={service.category_id == "5"}
                 onChange={handleChange}
               />
             </div>
           </Form.Group>
           <Form.Group className="mb-3">
-            <Form.Label>Hình ảnh mô tả sản phẩm</Form.Label>
+            <Form.Label>Hình ảnh mô tả</Form.Label>
             <Form.Control
               type="file"
               name="image"

@@ -11,11 +11,15 @@ import serviceApi from "../../../apis/service.api";
 
 const formatCategory = (category) => {
   if (category === 1) {
-    return <Badge bg="warning">Áo sơ mi</Badge>;
+    return <Badge bg="warning">Giặt thường</Badge>;
   } else if (category === 2) {
-    return <Badge bg="success">Áo phong</Badge>;
+    return <Badge bg="success">Hong khô</Badge>;
   } else if (category === 3) {
-    return <Badge>Quần</Badge>;
+    return <Badge bg="primary">Giặt tay</Badge>;
+  } else if (category === 4) {
+    return <Badge bg="info">Giặt giày</Badge>;
+  } else if (category === 5) {
+    return <Badge bg="secondary">Giặt nhanh</Badge>;
   }
 };
 

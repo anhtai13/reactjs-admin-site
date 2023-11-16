@@ -29,11 +29,11 @@ function OrderForm({ orderId, onSubmit, onCancel }) {
       orderApi
         .getOrderByOrderId(orderId)
         .then((response) => {
+          console.log(response);
+
           setOrder({
             ...response,
-            serial_number: response.serial_number || "",
-            user_id: response.user_id || "",
-            status: response.status || "",
+            status: response.status_id || "",
           });
         })
         .catch((error) => {
@@ -45,6 +45,7 @@ function OrderForm({ orderId, onSubmit, onCancel }) {
   const handleChange = (event) => {
     const name = event.target.name;
     const value = event.target.value;
+    console.log("check value", name, value);
 
     switch (name) {
       case "image":
@@ -56,8 +57,10 @@ function OrderForm({ orderId, onSubmit, onCancel }) {
       default:
         setOrder({
           ...order,
-          [name]: name === "status" ? parseInt(value) : value,
+          [name]: name == "status" ? parseInt(value) : value,
         });
+        console.log("check value", order);
+
         break;
     }
   };
@@ -68,20 +71,26 @@ function OrderForm({ orderId, onSubmit, onCancel }) {
 
     const errors = validate();
     if (errors.size === 0) {
-      const formData = new FormData();
+      // const formData = new FormData();
 
-      formData.append("serial_number", order.serial_number);
-      formData.append("user_id", order.user_id);
-      formData.append("username", order.username);
-      formData.append("status", order.status);
-      formData.append("total_price", order.total_price);
-      formData.append("created_at", order.created_at);
+      // formData.append("order_id", order.order_id);
+      // formData.append("serial_number", order.serial_number);
+      // formData.append("user_id", order.user_id);
+      // formData.append("username", order.username);
+      // formData.append("status_id", order.status);
+      // formData.append("total_price", order.total_price);
+      // formData.append("created_at", order.created_at);
 
-      if (order.image) {
-        formData.append("image", order.image);
-      }
+      // if (order.image) {
+      //   formData.append("image", order.image);
+      // }
+      // console.log("check formdata !");
+      // for (const [key, value] of formData.entries()) {
+      //   console.log(key, value);
+      // }
 
-      onSubmit(formData);
+      onSubmit(order);
+      // onSubmit(formData);
     } else {
       setErrors(errors);
     }
@@ -194,7 +203,7 @@ function OrderForm({ orderId, onSubmit, onCancel }) {
                 label="Đã xác thực"
                 id="status-2"
                 value={2}
-                checked={order.status === 2}
+                checked={order.status == 2}
                 onChange={handleChange}
               />
               <Form.Check
@@ -204,7 +213,7 @@ function OrderForm({ orderId, onSubmit, onCancel }) {
                 label="Đơn hàng mới"
                 id="status-1"
                 value={1}
-                checked={order.status === 1}
+                checked={order.status == 1}
                 onChange={handleChange}
               />
               <Form.Check
@@ -214,7 +223,7 @@ function OrderForm({ orderId, onSubmit, onCancel }) {
                 label="Đang giao hàng"
                 id="status-3"
                 value={3}
-                checked={order.status === 3}
+                checked={order.status == 3}
                 onChange={handleChange}
               />
               <Form.Check
@@ -224,7 +233,7 @@ function OrderForm({ orderId, onSubmit, onCancel }) {
                 label="Đã giao hàng thành công"
                 id="status-4"
                 value={4}
-                checked={order.status === 4}
+                checked={order.status == 4}
                 onChange={handleChange}
               />
               <Form.Check
@@ -234,7 +243,7 @@ function OrderForm({ orderId, onSubmit, onCancel }) {
                 label="Đã thanh toán"
                 id="status-5"
                 value={5}
-                checked={order.status === 5}
+                checked={order.status == 5}
                 onChange={handleChange}
               />
               <Form.Check
@@ -244,7 +253,7 @@ function OrderForm({ orderId, onSubmit, onCancel }) {
                 label="Hoàn tất đơn hàng "
                 id="status-6"
                 value={6}
-                checked={order.status === 6}
+                checked={order.status == 6}
                 onChange={handleChange}
               />
               <Form.Check
@@ -254,7 +263,7 @@ function OrderForm({ orderId, onSubmit, onCancel }) {
                 label="Đơn hàng bị hủy"
                 id="status-7"
                 value={7}
-                checked={order.status === 7}
+                checked={order.status == 7}
                 onChange={handleChange}
               />
             </div>

@@ -50,7 +50,7 @@ const getOrderDetailByOrderDetailId = async (orderId) => {
 
 const updateOrder = async (orderId, requestBody) => {
   return await api
-    .putForm(`/orders/${orderId}`, requestBody, { headers: getHeaders() })
+    .put(`/orders/${orderId}`, requestBody, { headers: getHeaders() })
     .then((response) => {
       return response.data;
     })

@@ -9,10 +9,9 @@ function ServiceEdit() {
   const navigate = useNavigate();
 
   const { id } = useParams();
-  useEffect(() => {}, []);
   const handleUpdate = (service) => {
     serviceApi
-      .updateService(id, service)
+      .updateService(Number(id), service)
       .then(() => {
         navigate("/admin/services");
       })
@@ -30,7 +29,7 @@ function ServiceEdit() {
     <>
       <h1>Chỉnh sửa thông tin dịch vụ</h1>
       <ServiceForm
-        ServiceId={id}
+        serviceId={Number(id)}
         onSubmit={handleUpdate}
         onCancel={() => navigate("/admin/services")}
       />

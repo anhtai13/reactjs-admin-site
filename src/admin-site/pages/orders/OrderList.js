@@ -217,7 +217,7 @@ function OrderList() {
                 <td>{order.serial_number}</td>
                 <td>{order.user_id}</td>
                 <td>{order.username}</td>
-                <td>{formatStatus(order.status)}</td>
+                <td>{formatStatus(order.status_id)}</td>
                 <td>{order.total_price}</td>
                 <td>{moment(order.created_at).format("YYYY-MM-DD HH:mm")}</td>
                 <td>{moment(order.updated_at).format("YYYY-MM-DD HH:mm")}</td>

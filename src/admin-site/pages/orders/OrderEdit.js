@@ -11,6 +11,10 @@ function OrderEdit() {
   const { id } = useParams();
 
   const handleUpdate = (order) => {
+    console.log("check formdata 2");
+    // for (const [key, value] of order.entries()) {
+    //   console.log(key, value);
+    // }
     orderApi
       .updateOrder(id, order)
       .then(() => {
@@ -22,6 +26,7 @@ function OrderEdit() {
           navigate("/admin/login");
         } else {
           alert(error.response.statusText);
+          // console.log(id, order);
         }
       });
   };
