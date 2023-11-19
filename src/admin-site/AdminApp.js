@@ -24,6 +24,10 @@ import ServiceList from "./pages/services/ServiceList";
 import ServiceCreate from "./pages/services/ServiceCreate";
 import ServiceEdit from "./pages/services/ServiceEdit";
 
+import EvaluatesList from "./pages/evaluates/evaluatesList";
+
+ 
+
 function AdminApp() {
   return (
     <Provider store={store}>
@@ -43,6 +47,8 @@ function AdminApp() {
 
           <Route path="/contacts" element={<ContactList />} />
           <Route path="/contacts/:id/edit" element={<ContactEdit />} />
+
+          <Route path="/evaluates" element={<EvaluatesList />} />
 
           <Route index element={<AdminHomePage />} />
           <Route path="*" element={<AdminNotFoundPage />} />
